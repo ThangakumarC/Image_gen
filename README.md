@@ -1,59 +1,106 @@
-# Text-to-Image Generative System
+# Text-to-Image Generator
 
-## Overview
-This project implements a text-to-image generation system based on **Diffusion Models** using the Hugging Face `diffusers` library and a Streamlit web interface. It is optimized to run on both **GPU** and severely **low-RAM/CPU-only** environments.
+***
+
+## Project Overview and Architecture
+
+This project implements a powerful **Text-to-Image Generation System** built using **Diffusion Models** via the Hugging Face `diffusers` library, wrapped inside a clean and interactive Streamlit web UI.
+
+It is optimized to run on **High-end GPU systems** AND **Low-RAM / CPU-only laptops** using model offloading techniques.
+
+### Features
+
+* **Stable Diffusion v1.5** powered text-to-image generator
+* Runs on low-end hardware using **CPU/GPU offload**
+* Multiple image styles (Photorealistic, Artistic, Van Gogh, etc.)
+* **Automatic prompt enhancement** for higher quality images
+* **Universal Negative Prompt** support (fixed in code)
+* Automatic saving of images (PNG + JPEG) with metadata
+* **AI Watermarked** PNG metadata for transparency
+* Highly optimized model loading with **Streamlit cache**
 
 ### Technology Stack
-* **Model Core:** Stable Diffusion v1.5 (Diffusion Model)
+
+* **Model Core:** Stable Diffusion v1.5
 * **Framework:** PyTorch
-* **UI/Interface:** Streamlit
-* **Core Libraries:** `diffusers`, `transformers`, `accelerate`
+* **Frontend/UI:** Streamlit
+* **Model Tools:** `diffusers`, `transformers`, `accelerate`
+
+---
 
 ### Core Architecture
 
 The system uses a standard client-server pattern implemented within Streamlit:
 
-1.  **Model Loading:** The `load_model()` function is decorated with `@st.cache_resource` to ensure the 5GB model is only loaded **once**, even across user interactions.
-2.  **Memory Optimization (Low-End Hardware):** The model is loaded with `pipe.enable_model_cpu_offload()`. This is a crucial technique that dynamically loads model components (UNet, VAE, Text Encoder) to the GPU only when needed, moving them back to **system RAM/Disk (Pagefile)** when idle. This allows the 5GB model to function on systems with **limited physical memory**. 
-3.  **Prompt Enhancement:** User input is processed by the `enhance_prompt()` function, which prepends or appends high-quality descriptors ("highly detailed," "cinematic lighting") based on the selected style.
+1.  **Model Loading:** The `load_model()` function uses **`@st.cache_resource`**. This ensures the $\sim5\text{GB}$ model loads only once, even after UI interactions.
+2.  **Memory Optimization:** To support low-end laptops, **`pipe.enable_model_cpu_offload()`** is used.  This technique dynamically moves components (**UNet, VAE, Text Encoder**) between GPU/CPU on demand, allowing generation on systems with **limited physical memory**.
+3.  **Prompt Enhancement:** The `enhance_prompt()` function automatically adds high-quality keywords (e.g., `hyper-realistic`, `4K`, `cinematic lighting`, `Van Gogh brush strokes`) based on the style chosen. This increases output quality drastically.
+
+***
 
 ## Setup and Installation
 
 ### A. Prerequisites
-You must have **Python 3.9+** installed.
+
+* **Python 3.9+**
+* (Optional) GPU with CUDA
 
 ### B. Installation Steps
-1.  **Clone the Repository:**
+
+1.  **Clone the repository:**
     ```bash
-    git clone [YOUR GITHUB REPO URL]
-    cd [YOUR REPO NAME]
+    git clone https://github.com/ThangakumarC/Image_gen.git
+    cd Image_gen
     ```
 
 2.  **Create Virtual Environment:**
     ```bash
     python -m venv venv
-    .\venv\Scripts\activate # On Windows
-    # source venv/bin/activate # On Linux/macOS
+    .\venv\Scripts\activate   # Windows
+    # source venv/bin/activate  # Linux/macOS
     ```
 
-3.  **Install Dependencies:**
+3.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Run the Application:**
+4.  **Run application:**
     ```bash
     streamlit run app.py
     ```
-    The application will open in your browser (`http://localhost:8501`). The **model will automatically download** to your Hugging Face cache upon the first run.
+    The UI opens at: `http://localhost:8501`. The Stable Diffusion model will download automatically on first run.
+
+***
 
 ## Image Quality Enhancement & Prompt Engineering
-### Implementation:
-* **Prompt Enhancement:** Implemented in `enhance_prompt()` to add specific style and quality tokens (e.g., `hyper-realistic, 4K, cinematic lighting`) based on user selection.
-* **Negative Prompt:** A dedicated sidebar input is included to filter unwanted features (`blurry, deformed, jpeg artifacts`).
+
+The system implements prompt engineering techniques to ensure consistently high-quality output.
+
+* **Automatic Quality Tokens:** The `enhance_prompt()` function automatically appends quality-boosting terms (e.g., `highly detailed`, `4K`).
+* **Universal Negative Prompt:** A robust negative prompt is embedded directly in the code, filtering out flaws like: `blurry, deformed, extra limbs, low resolution, distorted face, jpeg artifacts`.
+* **Configurable Parameters:** Users can adjust **Inference Steps** and **Guidance Scale** for fine-tuning quality and style adherence.
+
+***
 
 ## Storage and Export
-* **Storage:** Generated images are saved to the local `generated_images/` directory.
-* **Metadata:** A comprehensive dictionary of metadata (Prompt, Timestamp, Parameters, **AI Watermark**) is saved within the **PNG file format** upon export.
-* **Export Formats:** Both **PNG (with metadata)** and **JPEG** formats are automatically saved to disk and provided for browser download.
-* **Watermarking (Ethical AI):** A mandatory metadata field `AI_Watermark: Generated using Stable Diffusion v1.5 (AI Origin Watermark)` is added to every saved image file.
+
+Generated images are saved to the local **`generated_images/`** directory.
+
+* **PNG Format:** Includes **metadata** (prompt, parameters, timestamp, AI watermark) for complete provenance.
+* **JPEG Format:** A lightweight version is also saved for easy sharing.
+* **AI Watermark:** Every PNG includes the ethical transparency metadata: `AI_Watermark: Generated using Stable Diffusion v1.5 (AI Origin)`.
+
+***
+
+## Sample Generated Outputs
+
+Below are example generations showcasing the effectiveness of the automatic prompt enhancement and style guidance.
+
+| Prompt Style | Base Prompt | Image Result |
+| :--- | :--- | :--- | :--- |
+| **Photorealistic** | A futuristic city at sunset  ![Photorealistic sample image](<img width="512" height="512" alt="futuristic city at sunset" src="https://github.com/user-attachments/assets/b5752212-4e33-4e88-8e47-f9f5a7709994" />) |
+| **Artistic (Van Gogh)** | Portrait of a robot | ![Artistic Van Gogh sample](<img width="512" height="512" alt="20251126_184951_robos_1" src="https://github.com/user-attachments/assets/1b02777c-59c0-4e78-b779-da97d0c6a862" />
+) |
+
+***
