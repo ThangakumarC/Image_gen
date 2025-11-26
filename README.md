@@ -83,11 +83,9 @@ Below are example generations showcasing the effectiveness of the automatic prom
 # 1. Style - Photorealistic  |  Base Prompt  -  A futuristic city at sunset
    
    Image Result 
-
-    <img width="512" height="512" alt="futuristic city at sunset" src="https://github.com/user-attachments/assets/b5752212-4e33-4e88-8e47-f9f5a7709994"/>
+   <img width="512" height="512" alt="futuristic city at sunset" src="https://github.com/user-attachments/assets/b5752212-4e33-4e88-8e47-f9f5a7709994"/>
     
 # 2. Style - Artistic (Van Gogh) | Base Prompt - Portrait of a robot
 
    Image Result
-
    <img width="512" height="512" alt="20251126_184951_robos_1" src="https://github.com/user-attachments/assets/1b02777c-59c0-4e78-b779-da97d0c6a862" />
