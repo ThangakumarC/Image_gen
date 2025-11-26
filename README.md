@@ -1,5 +1,5 @@
 # Text-to-Image Generator
-***
+
 ## Project Overview and Architecture
 This project implements a powerful **Text-to-Image Generation System** built using **Diffusion Models** via the Hugging Face `diffusers` library, wrapped inside a clean and interactive Streamlit web UI.
 
@@ -80,7 +80,9 @@ Generated images are saved to the local **`generated_images/`** directory.
 ## Sample Generated Outputs
 
 Below are example generations showcasing the effectiveness of the automatic prompt enhancement and style guidance.
-
-Prompt Style            | Base Prompt                  | Image Result 
-**Photorealistic**      | A futuristic city at sunset  | ![Photorealistic sample image](<img width="512" height="512" alt="futuristic city at sunset" src="https://github.com/user-attachments/assets/b5752212-4e33-4e88-8e47-f9f5a7709994" />) |
-**Artistic (Van Gogh)** | Portrait of a robot          | ![Artistic Van Gogh sample](<img width="512" height="512" alt="20251126_184951_robos_1" src="https://github.com/user-attachments/assets/1b02777c-59c0-4e78-b779-da97d0c6a862" />)
+1. Style - Photorealistic  |  Base Prompt  -  A futuristic city at sunset
+   Image Result 
+    <img width="512" height="512" alt="futuristic city at sunset" src="https://github.com/user-attachments/assets/b5752212-4e33-4e88-8e47-f9f5a7709994"/>
+2. Style - Artistic (Van Gogh) | Base Prompt - Portrait of a robot
+   Image Result
+   <img width="512" height="512" alt="20251126_184951_robos_1" src="https://github.com/user-attachments/assets/1b02777c-59c0-4e78-b779-da97d0c6a862" />
